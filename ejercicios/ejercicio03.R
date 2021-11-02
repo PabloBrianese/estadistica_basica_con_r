@@ -35,8 +35,27 @@ y <- c(123.34, 78.23, 89.6, 1.2)
 xx <- c(x, y)
 
 # nueva localización
-mean(x); mean(xx)  # crece
-median(x); median(xx)  # permanece estable
-mean(x, trim = 0.05); mean(xx, trim = 0.05)  # permanece estable
+mean(x); mean(xx)
+# CRECE
+# Porque en un promedio todos los datos tienen igual peso,
+# tanto los grandes como los pequeños, los que están acumulados
+# y los que están dispersos
+
+median(x); median(xx)
+# PERMANECE ESTABLE
+# Porque son pocos los nuevos datos en comparación con los existentes.
+# Con precisión, más del 95% de los nuevos datos son preexistentes.
+length(x) / length(xx)
+# Además la distribución de x está concentrada alrededor de la mediana
+# Podría suceder que sus valores se concentraran en múltiples grupúsculos
+# disjuntos. En ese caso la mediana podría cambiar mucho
+# si cambia el balance entre los grupúsculos.
+
+mean(x, trim = 0.05); mean(xx, trim = 0.05)
+# PERMANECE ESTABLE
+# Porque se añaden pocos valores nuevos a la muestra
+# (ver la reflexión en torno a la mediana)
+# y porque la poda (trim) elimina las observaciones que provocan cambios mayores
+# en el resultado de la media
 quantile(x, probs = .01); quantile(xx, probs = .01)  # decrece
 quantile(x, probs = .09); quantile(xx, probs = .09)  # permanece estable
