@@ -57,5 +57,36 @@ mean(x, trim = 0.05); mean(xx, trim = 0.05)
 # (ver la reflexión en torno a la mediana)
 # y porque la poda (trim) elimina las observaciones que provocan cambios mayores
 # en el resultado de la media
-quantile(x, probs = .01); quantile(xx, probs = .01)  # decrece
-quantile(x, probs = .09); quantile(xx, probs = .09)  # permanece estable
+
+quantile(x, probs = .1); quantile(xx, probs = .1)
+# PERMANECE ESTABLE
+quantile(x, probs = .9); quantile(xx, probs = .9)
+# PERMANECE ESTABLE
+
+# Los deciles permanecen estables
+# Es entendible que varíe un percentil como
+quantile(x, probs = .01); quantile(xx, probs = .01)
+# Consideramos las variables
+sorted <- sort(x)
+p <- .01
+q <- quantile(x, probs = p)
+base <- sum(sorted <= q)
+print(base)
+# Estas nos permiten observar que q varía
+# Porque solo 2 muestras de x son menores a q.
+# En definitiva lo que sucede es que
+length(x) * p
+# es un valor muy pequeño en comparación con
+length(y)
+# podríamos decir que es muy pequeño el valor
+min(p, 1 - p) * length(x) / length(y)
+
+# Definimos una función para hacer las comparaciones entre cuantiles
+metric <- function(p) { min(p, 1-p) * length(x) / length(y) }
+
+# Con los deciles sucede
+metric(.1)
+metric(.9)
+# Con los percentiles sucede
+metric(.01)
+metric(.09)
